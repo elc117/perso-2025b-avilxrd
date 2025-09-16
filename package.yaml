@@ -1,10 +1,10 @@
 name:                simple-chat
 version:             0.1.0.0
-github:              "githubuser/simple-chat"
+github:              "avilxrd/simple-chat"
 license:             BSD-3-Clause
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2025 Author name here"
+author:              "Miguel Avila de Oliveira"
+maintainer:          "miguelaviladeoliveira@gmail.com"
+copyright:           "2025 Miguel Avila de Oliveira"
 
 extra-source-files:
 - README.md
@@ -21,6 +21,10 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
+- scotty
+- text
+- aeson
+- wai-middleware-static
 
 ghc-options:
 - -Wall
