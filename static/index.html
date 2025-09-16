@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="styles.css" />
+    <title>MoggsApp</title>
+</head>
+
+<body>
+
+    <div class="header">
+        <a>WhatsApp</a>
+        <div class="header-right">
+            <input type="text" id="from" name="from" placeholder="Usuário" required />
+        </div>
+    </div>
+
+    <div class="search-container">
+        <input type="text" name="contact" placeholder="Inicie uma conversa..." />
+    </div>
+
+    <div class="chats-container">
+
+        <div class="contacts-container">
+            
+            <div class="header-chats">
+                <input type="text" id="to" name="to" placeholder="Destinatário" required />
+            </div>
+            
+            <ul id="contacts-list">
+            </ul>
+
+            <div class="footer-contacts">
+                <textarea id="content" name="content" placeholder="Digite sua mensagem..." required></textarea>
+                <button id="sendBtn" type="button">Enviar</button>
+            </div>
+            
+        </div>
+
+        <div class="chat-area" id="chat-area"></div>
+
+    </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
