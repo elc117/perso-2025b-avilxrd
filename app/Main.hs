@@ -15,11 +15,11 @@ import Network.Wai.Middleware.Static
 
 data Message = Message
     {   
-        msg_id      :: Int,    
+        -- msg_read    :: Bool,
+        -- msg_id      :: Int,    
         user_from   :: Text,
         user_to     :: Text,
-        msg_content :: Text,
-        msg_read    :: Bool
+        msg_content :: Text
     } deriving (Show, Generic, Eq)
 
 instance ToJSON   Message
@@ -32,6 +32,18 @@ main = do
     scotty 3000 $ do
         middleware $ staticPolicy (addBase "static")
 
+        -- retorna a pagina html
         get "/" $ do
             page <- liftIO $ TIO.readFile "static/index.html"
             html page
+
+        -- rota para envio de mensagens
+        post "/msg" $ do
+            new_message <- jsonData
+            liftIO $ modifyIORef messages (new_message :)
+            json new_message
+        
+        -- rota para recuperar todas as mensagens
+        get "/msgs" $ do
+            all_messages <- liftIO $ readIORef messages
+            json all_messages
