@@ -3,7 +3,7 @@ const sendButton   = document.getElementById("send-button");
 const fromInput    = document.getElementById("from");
 const toInput      = document.getElementById("to");
 const contentInput = document.getElementById("content");
-const contactList  = document.getElementById("contacts-list");
+const contactsList  = document.getElementById("contacts-list");
 const chatArea     = document.getElementById("chat-area");
 
 let currentUser = ""
@@ -54,3 +54,60 @@ sendButton.addEventListener("click", async () => {
         alert("erro de rede ao enviar a mensagem");
     }
 });
+
+// carrega a lista de contatos de um respectivo usuario
+// e adiciona na interface (formata)
+async function loadContacts() {
+    if (!currentUser) return;
+    
+    try {
+        const res          = await fetch("/msgs");
+        const all_messages = await res.json();
+    
+        const contactsSet  = new Set();
+
+        all_messages.forEach(msg => {
+            if (msg.user_from === currentUser) contactsSet.add(msg.user_to);
+            if (msg.user_to   === currentUser) contactsSet.add(msg.user_to)
+        });
+
+        contactsList.innerHTML = "";
+
+        contactsSet.forEach(contact => {
+            const li = document.createElement("li");
+            li.textContent = contact;
+            li.style.cursor = "pointer";
+            li.addEventListener("click", () => {
+                toInput.value = contact;
+                loadConversation(currentUser, contact);
+            });
+            contactsList.appendChild(li);
+        });
+    } catch (err) {
+        console.log("erro ao carregar contatos", err);
+    }
+}
+
+// carrega a conversa entre dois usuarios
+// e adiciona na interface
+async function loadConversation(user1, user2) {
+    try {
+        const res = await fetch (`/chat/${user1}/${user2}`);
+        if (res.ok) {
+            chatArea.innerHTML = "<p>erro ao carregar conversa</p>"
+            return;
+        }
+
+        const messages = await res.json();
+
+        chatArea.innerHTML = "";
+
+        messages.forEach(msg => {
+            const p = document.createElement("p");
+            p.textContent = `${msg.user_from}: ${msg.msg_content}`
+            chatArea.appendChild(p);
+        });
+    } catch (err) {
+        console.error("erro ao carregar conversa", err);
+    }
+}
