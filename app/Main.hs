@@ -1,8 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
- 
+
 module Main (main) where
 
+import Lib
 import Web.Scotty
 import Data.IORef
 import Data.Text (Text)
@@ -12,15 +13,6 @@ import GHC.Generics
 import Data.Aeson (FromJSON, ToJSON)
 import Control.Monad.IO.Class (liftIO)
 import Network.Wai.Middleware.Static
-
-data Message = Message
-    {   
-        -- msg_read    :: Bool,
-        -- msg_id      :: Int,    
-        user_from   :: Text,
-        user_to     :: Text,
-        msg_content :: Text
-    } deriving (Show, Generic, Eq)
 
 instance ToJSON   Message
 instance FromJSON Message
@@ -47,3 +39,12 @@ main = do
         get "/msgs" $ do
             all_messages <- liftIO $ readIORef messages
             json all_messages
+
+        -- rota para recuperar as mensagens entre dois usuarios
+        get "/chat/:user1/:user2" $ do
+            user1 <- param "user1"
+            user2 <- param "user2"
+            all_messages <- liftIO $ readIORef messages
+
+            -- filter_messages definida em Lib.hs
+            json (filter_messages user1 user2 all_messages)
