@@ -25,7 +25,7 @@ dependencies:
 - text
 - aeson
 - wai-middleware-static
-
+- sqlite-simple
 ghc-options:
 - -Wall
 - -Wcompat
