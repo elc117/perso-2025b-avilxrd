@@ -37,7 +37,7 @@ textarea::placeholder {
 }
 
 .header {
-    background-color: #054640;
+    background-color: #9638f0;
     overflow: hidden;
     padding: 10px 10px;
     align-items: center;
@@ -123,7 +123,7 @@ textarea::placeholder {
     justify-content: flex-end;
 }
 .header-contacts {
-    background-color: #054640;
+    background-color: #9638f0;
     border-radius: 8px 8px 0 0;
     /* border: 1px solid black; */
     height: 50px;
@@ -132,7 +132,7 @@ textarea::placeholder {
     align-items: center;
 }
 .footer-contacts {
-    background-color: #054640;
+    background-color: #9638f0;
     height: 75px;
     margin-top: auto;
     display: flex;
@@ -148,8 +148,9 @@ textarea::placeholder {
     height: 20px;
     width: 20px;
     border-radius: 100%;
-    background-color: #054640;
+    background-color: black;
     margin-right: 15px;
+    margin-left: 10px;
 }
 .chat-area {
     float: right;
@@ -182,16 +183,18 @@ textarea::placeholder {
 .message {
     margin: 10px;
     padding: 10px;
-    border-radius: 8px;
     width: 45%;
 }
 
 .sent {
-    background-color: #25D366;
+    background-color: #9638f0;
     float: right;
+    border-radius: 50px 0 50px 50px;
+    color: white;
 }
 
 .received {
     background-color: rgb(218, 218, 218);
     float: left;
+    border-radius: 0 50px 50px 50px;
 }

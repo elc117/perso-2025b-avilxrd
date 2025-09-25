@@ -91,12 +91,15 @@ async function loadContacts() {
             contactDiv.appendChild(picFrame);
             contactDiv.appendChild(nameLink);
             contactDiv.appendChild(messageLink);
-
+            
             // evento de click
             contactDiv.style.cursor = "pointer";
             contactDiv.addEventListener("click", () => {
+                
                 toInput.value = contact;
                 loadConversation(currentUser, contact);
+                let cname = document.getElementById("contact-name");
+                cname.innerHTML = contact    
             });
             contactsList.appendChild(contactDiv);
         });
