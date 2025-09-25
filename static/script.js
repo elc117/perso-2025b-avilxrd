@@ -5,16 +5,18 @@ const toInput      = document.getElementById("to");
 const contentInput = document.getElementById("content");
 const contactsList  = document.getElementById("contacts-list");
 const chatArea     = document.getElementById("chat-area");
+const msgsArea     = document.getElementById("messages-area");
 
-let currentUser = ""
+let currentUser = "Miguel"
+loadContacts();
 
 // fica "escutando" o input de usuario e atualizando os
 // contatos com base no usuario
 // provisório -> posteriormente não terá como mudar de usuário
-fromInput.addEventListener("input", (e) => {
-    currentUser = e.target.value.trim();
-    // loadContacts(); // TODO: 
-});
+// fromInput.addEventListener("input", (e) => {
+//     currentUser = e.target.value.trim();
+//     loadContacts();
+// });
 
 // fica "escutando" o botao, quando clicado vai enviar a mensagem
 // para o endpoint "/msg"
@@ -44,8 +46,8 @@ sendButton.addEventListener("click", async () => {
         if (res.ok) {
             const data = await res.json();
             contentInput.value = "";
-            // loadContacts();
-            // loadConversation(from, to);
+            loadContacts();
+            loadConversation(from, to);
         } else {
             alert("erro ao enviar a mensagem");
         }
@@ -74,14 +76,29 @@ async function loadContacts() {
         contactsList.innerHTML = "";
 
         contactsSet.forEach(contact => {
-            const li = document.createElement("li");
-            li.textContent = contact;
-            li.style.cursor = "pointer";
-            li.addEventListener("click", () => {
+            const contactDiv = document.createElement("div");
+            contactDiv.className = "contact";
+
+            const picFrame = document.createElement("div");
+            picFrame.className = "pic-frame";
+
+            const nameLink = document.createElement("a");
+            nameLink.textContent = contact;
+
+            const messageLink = document.createElement("a");
+            messageLink.textContent = ": Loading...";
+
+            contactDiv.appendChild(picFrame);
+            contactDiv.appendChild(nameLink);
+            contactDiv.appendChild(messageLink);
+
+            // evento de click
+            contactDiv.style.cursor = "pointer";
+            contactDiv.addEventListener("click", () => {
                 toInput.value = contact;
                 loadConversation(currentUser, contact);
             });
-            contactsList.appendChild(li);
+            contactsList.appendChild(contactDiv);
         });
     } catch (err) {
         console.log("erro ao carregar contatos", err);
@@ -93,19 +110,24 @@ async function loadContacts() {
 async function loadConversation(user1, user2) {
     try {
         const res = await fetch (`/chat/${user1}/${user2}`);
-        if (res.ok) {
-            chatArea.innerHTML = "<p>erro ao carregar conversa</p>"
+        if (!res.ok) {
+            msgsArea.innerHTML = "<p>erro ao carregar conversa</p>"
             return;
         }
 
         const messages = await res.json();
 
-        chatArea.innerHTML = "";
+        msgsArea.innerHTML = "";
 
         messages.forEach(msg => {
+            const div = document.createElement("div");
+            if (msg.user_from == currentUser) div.className = "message sent"
+            else div.className = "message received"
+
             const p = document.createElement("p");
-            p.textContent = `${msg.user_from}: ${msg.msg_content}`
-            chatArea.appendChild(p);
+            p.textContent = `${msg.msg_content}`
+            div.append(p);
+            msgsArea.appendChild(div);
         });
     } catch (err) {
         console.error("erro ao carregar conversa", err);
