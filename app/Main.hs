@@ -3,17 +3,13 @@
 
 module Main (main) where
 
-import Data.IORef
 import Web.Scotty
 import Data.Text (Text)
-import qualified Data.Text.Lazy    as LT
 import qualified Data.Text.Lazy.IO as TIO
 import GHC.Generics
 import Data.Aeson (FromJSON, ToJSON)
-import Control.Monad.IO.Class (liftIO)
 import Network.Wai.Middleware.Static
 import Database.SQLite.Simple
-import Database.SQLite.Simple.FromRow
 
 data Message = Message
     {    
@@ -27,7 +23,6 @@ instance FromJSON Message
 
 instance FromRow Message where
     fromRow = Message <$> field <*> field <*> field
-
 
 -- a função foi descontinuada pois agora é feito um filtro no SQL
 -- recebe dois usuarios e uma lista de mensagens
@@ -90,8 +85,19 @@ main = do
 
         -- rota para recuperar as mensagens entre dois usuarios
         get "/chat/:user1/:user2" $ do
-            user1 <- param "user1"
-            user2 <- param "user2"
+            user1 <- pathParam "user1"
+            user2 <- pathParam "user2"
             all_messages <- liftIO $ get_chat conn user1 user2
 
             json all_messages
+        
+        -- rota para recuperar a ultima mensagem entre dois usuários
+        get "/chat/:user1/:user2/last" $ do
+            user1 <- pathParam "user1"
+            user2 <- pathParam "user2"
+            all_messages <- liftIO $ get_chat conn user1 user2
+
+            let last_message = case all_messages of
+                    [] -> Nothing
+                    msgs -> Just (last msgs)
+            json last_message
