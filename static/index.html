@@ -16,26 +16,17 @@
         </div>
     </div>
 
-    <div class="search-container">
-        <input type="text" name="contact" placeholder="Inicie uma conversa..." />
-    </div>
+    <input type="text" id="to" name="to" placeholder="Destinatário" required />
+    
 
     <div class="chats-container">
 
         <div class="contacts-container">
             
             <div class="header-contacts">
-                <input type="text" id="to" name="to" placeholder="Destinatário" required />
             </div>
-            
-            <ul id="contacts-list">
-
-            </ul>
-
-            <div class="footer-contacts">
-                <textarea id="content" name="content" placeholder="Digite sua mensagem..." required></textarea>
-                <button id="send-button" type="button">Enviar</button>
-            </div>
+    
+            <ul id="contacts-list"></ul>
             
         </div>
 
@@ -47,6 +38,14 @@
             </div>
 
             <div id="messages-area"></div>
+            
+            <div class="footer-chats">
+                <div class="type-message">
+                    <textarea id="content" name="content" placeholder="Digite sua mensagem..." required></textarea>
+                </div>
+                
+                <button id="send-button" type="button">Enviar</button>
+            </div>
         </div>
     </div>
     <script src="./script.js"></script>

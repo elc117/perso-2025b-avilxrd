@@ -13,10 +13,11 @@ loadContacts();
 // fica "escutando" o input de usuario e atualizando os
 // contatos com base no usuario
 // provisório -> posteriormente não terá como mudar de usuário
-// fromInput.addEventListener("input", (e) => {
-//     currentUser = e.target.value.trim();
-//     loadContacts();
-// });
+fromInput.addEventListener("input", (e) => {
+    currentUser = e.target.value.trim();
+    loadContacts();
+});
+
 
 // fica "escutando" o botao, quando clicado vai enviar a mensagem
 // para o endpoint "/msg"
@@ -63,48 +64,69 @@ async function loadContacts() {
     if (!currentUser) return;
     
     try {
-        const res          = await fetch("/msgs");
+        const res = await fetch("/msgs");
         const all_messages = await res.json();
     
-        const contactsSet  = new Set();
+        const contactsSet = new Set();
 
         all_messages.forEach(msg => {
-            if (msg.user_from === currentUser) contactsSet.add(msg.user_to);
-            if (msg.user_to   === currentUser) contactsSet.add(msg.user_to)
+            if (msg.user_from === currentUser && msg.user_to !== currentUser) {
+                contactsSet.add(msg.user_to);
+            }
+            if (msg.user_to === currentUser && msg.user_from !== currentUser) {
+                contactsSet.add(msg.user_from);
+            }
         });
 
         contactsList.innerHTML = "";
 
-        contactsSet.forEach(contact => {
+        async function getLastMessage(user1, user2) {
+            try {
+                const response = await fetch(`/chat/${user1}/${user2}/last`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const lastMessage = await response.json();
+                return lastMessage ? lastMessage.msg_content : "No messages yet";
+            } catch (error) {
+                console.error('Error fetching last message:', error);
+                return "Error loading message";
+            }
+        }
+
+        // Carregar contatos e suas últimas mensagens
+        for (const contact of contactsSet) {
             const contactDiv = document.createElement("div");
             contactDiv.className = "contact";
 
             const picFrame = document.createElement("div");
-            picFrame.className = "pic-frame";
+            picFrame.className = "pic-frame user-fem";
 
             const nameLink = document.createElement("a");
             nameLink.textContent = contact;
 
+            let lastMessageContent = await getLastMessage(currentUser, contact);
             const messageLink = document.createElement("a");
-            messageLink.textContent = ": Loading...";
+
+            if (lastMessageContent.length + contact.length > 30) lastMessageContent = lastMessageContent.substring(0, 25) + '...';
+
+            messageLink.textContent = ": " + lastMessageContent;
 
             contactDiv.appendChild(picFrame);
             contactDiv.appendChild(nameLink);
             contactDiv.appendChild(messageLink);
             
-            // evento de click
             contactDiv.style.cursor = "pointer";
             contactDiv.addEventListener("click", () => {
-                
                 toInput.value = contact;
                 loadConversation(currentUser, contact);
                 let cname = document.getElementById("contact-name");
-                cname.innerHTML = contact    
+                cname.innerHTML = contact;    
             });
-            contactsList.appendChild(contactDiv);
-        });
+            contactsList.insertBefore(contactDiv, contactsList.firstChild);
+        }
     } catch (err) {
-        console.log("erro ao carregar contatos", err);
+        console.log("Erro ao carregar contatos", err);
     }
 }
 

@@ -7,17 +7,20 @@ body {
     background-color: #FFFFFF;
 }
 input[type="text"] {
-    border: none;
-    background-color: transparent;
-    outline: none;
-    color: #FFFFFF;
+    margin: 10px;
+    padding: 10px;
+    /* border: none; */
+    /* background-color: transparent; */
+    /* outline: none; */
+    /* color: #FFFFFF; */
     font-size: 16px;
     width: 100%;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
 }
 input[type="text"]::placeholder {
-    color: #FFFFFF;
+    color: #000000;
+    /* color: #FFFFFF; */
 }
 textarea {
     border: none;
@@ -37,7 +40,7 @@ textarea::placeholder {
 }
 
 .header {
-    background-color: #9638f0;
+    background: radial-gradient(circle, #9638f0, #a45ef5);
     overflow: hidden;
     padding: 10px 10px;
     align-items: center;
@@ -102,18 +105,18 @@ textarea::placeholder {
 }
 .chats-container {
     display: flex;
-    /* background-color: red; */
     margin: 30px auto 0 auto;
     width: 1200px;
-    min-height: 600px;
+    height: 600px;
     border-radius: 4px;
 }
 .contacts-container {
     display: flex;
     flex-direction: column;
-    background-color: #F3F3F3;
-    width: 50%;
+    background-color: #F9FAFE;
+    width: 70%;
     border-radius: 8px 8px 0 0;
+    height: 100%;
 }
 .contacts-container ul{
     list-style: none;
@@ -124,56 +127,50 @@ textarea::placeholder {
 }
 .header-contacts {
     background-color: #9638f0;
-    border-radius: 8px 8px 0 0;
-    /* border: 1px solid black; */
-    height: 50px;
+    border-radius: 8px 0 0 0;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.footer-contacts {
+.footer-chats {
     background-color: #9638f0;
-    height: 75px;
-    margin-top: auto;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 10px;
-}
-.pic-frame {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    height: 20px;
-    width: 20px;
-    border-radius: 100%;
-    background-color: black;
-    margin-right: 15px;
-    margin-left: 10px;
+    border-radius: 0 8px 0 8px;
 }
 .chat-area {
-    float: right;
-    display: block;
+    display: flex;
+    flex-direction: column;
     background-color: #FCFCFC;
-    width: 50%;
-    border: 1px solid black;
+    width: 100%;
+    height: 100%;
 }
 .contact {
+    /* border: 1px solid black; */
+    margin: 15px;
+    background-color: #FFFFFF;
+    border-radius: 14px;
     padding: 15px;
-    /* background-color: red; */
-    /* border: solid 1px black; */
     display: flex;
     align-items: center;
+    transition: background-color 0.1s ease; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 .contact a{
     font-size: 20px;
 }
+.contact:hover{
+    background-color: #F0F0F0;
+}
 .header-chats {
     width: 100%;
-    height: 50px;
+    height: 60px;
     background-color: #2C2C2C;
-    border-radius: 8px 8px 0 0;
+    border-radius: 0 8px 0 0;
     display: flex;
     align-items: center;
 }
@@ -182,7 +179,7 @@ textarea::placeholder {
 }
 .message {
     margin: 10px;
-    padding: 10px;
+    padding: 20px;
     width: 45%;
 }
 
@@ -197,4 +194,44 @@ textarea::placeholder {
     background-color: rgb(218, 218, 218);
     float: left;
     border-radius: 0 50px 50px 50px;
+}
+
+#messages-area {
+    flex-direction: column-reverse;
+    flex: 1;
+    overflow-y: auto;
+}
+.pic-frame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    height: 20px;
+    width: 20px;
+    border-radius: 100%;
+    background-color: black;
+    margin-right: 15px;
+    margin-left: 10px;
+}
+.user-fem {
+    background-image: url("");
+    background-size: cover;
+    background-position: center;
+    background-color: pink;
+}
+.user-masc {
+    background-image: url("");
+    background-size: cover;
+    background-position: center;
+    background-color: lightblue;
+}
+.user-undefined {
+    background-image: url("");
+    background-size: cover;
+    background-position: center;
+    background-color: lightgreen;
+}
+.type-message {
+    border-radius: 10px;
+    width: 90%;
 }
