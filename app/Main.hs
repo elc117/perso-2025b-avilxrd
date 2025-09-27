@@ -7,7 +7,7 @@ import Web.Scotty
 import Data.Text (Text)
 import qualified Data.Text.Lazy.IO as TIO
 import GHC.Generics
-import Data.Aeson (FromJSON, ToJSON)
+import Data.Aeson 
 import Network.Wai.Middleware.Static
 import Database.SQLite.Simple
 
@@ -23,11 +23,6 @@ instance FromJSON Message
 
 instance FromRow Message where
     fromRow = Message <$> field <*> field <*> field
-
--- a função foi descontinuada pois agora é feito um filtro no SQL
--- recebe dois usuarios e uma lista de mensagens
--- retorna as mensagens entre os dois usuarios
--- filter_messages :: Text -> Text -> [Message] -> [Message]
 
 -- inicializa o banco de dados
 init_db :: Connection -> IO ()
@@ -57,7 +52,6 @@ get_chat conn user1 user2 = do
         \ (user_from = ? AND user_to = ?)"
         (user1, user2, user2, user1) :: IO [Message]
 
-
 main :: IO ()
 main = do
     
@@ -77,7 +71,7 @@ main = do
             new_message <- jsonData
             liftIO $ insert_message conn new_message
             json new_message
-        
+
         -- rota para recuperar todas as mensagens
         get "/msgs" $ do
             all_messages <- liftIO $ get_all_messages conn
