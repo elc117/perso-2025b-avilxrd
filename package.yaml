@@ -26,6 +26,15 @@ dependencies:
 - aeson
 - wai-middleware-static
 - sqlite-simple
+- http-client
+- http-conduit
+- warp
+- wai
+- wai-extra
+- http-types
+- generic-deriving
+- bytestring
+
 ghc-options:
 - -Wall
 - -Wcompat

@@ -36,10 +36,18 @@ library
   build-depends:
       aeson
     , base >=4.7 && <5
+    , bytestring
+    , generic-deriving
+    , http-client
+    , http-conduit
+    , http-types
     , scotty
     , sqlite-simple
     , text
+    , wai
+    , wai-extra
     , wai-middleware-static
+    , warp
   default-language: Haskell2010
 
 executable simple-chat-exe
@@ -54,11 +62,19 @@ executable simple-chat-exe
   build-depends:
       aeson
     , base >=4.7 && <5
+    , bytestring
+    , generic-deriving
+    , http-client
+    , http-conduit
+    , http-types
     , scotty
     , simple-chat
     , sqlite-simple
     , text
+    , wai
+    , wai-extra
     , wai-middleware-static
+    , warp
   default-language: Haskell2010
 
 test-suite simple-chat-test
@@ -74,9 +90,17 @@ test-suite simple-chat-test
   build-depends:
       aeson
     , base >=4.7 && <5
+    , bytestring
+    , generic-deriving
+    , http-client
+    , http-conduit
+    , http-types
     , scotty
     , simple-chat
     , sqlite-simple
     , text
+    , wai
+    , wai-extra
     , wai-middleware-static
+    , warp
   default-language: Haskell2010
