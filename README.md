@@ -40,7 +40,7 @@ Para executar o aplicativo, siga as etapas abaixo:
    - O aplicativo estará disponível em `http://localhost:3000`.
 
 ### Resultados Finais
-[Assista o vídeo de demonstração] (https://youtu.be/-oG3fOEBMU0)
+[Assista o vídeo de demonstração](https://youtu.be/-oG3fOEBMU0)
 
 ## Referências e Créditos
 - [Haskell Documentation](https://www.haskell.org/documentation/)
