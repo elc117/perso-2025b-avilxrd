@@ -12,11 +12,10 @@
     <div class="header">
         <a>WhatsApp</a>
         <div class="header-right">
-            <input type="text" id="from" name="from" placeholder="Usuário" required />
         </div>
     </div>
 
-    <input type="text" id="to" name="to" placeholder="Destinatário" required />
+    <!-- <input type="text" id="to" name="to" placeholder="Destinatário" required /> -->
     
 
     <div class="chats-container">
@@ -24,11 +23,22 @@
         <div class="contacts-container">
             
             <div class="header-contacts">
+                <input type="text" id="contact-search" name="contact-search" placeholder="Pesquisar ou iniciar uma conversa..." required />
             </div>
-    
-            <ul id="contacts-list"></ul>
             
+            <ul id="contacts-list">
+            </ul>
+            
+            <div id="new-conversation" style="display: none;">
+                <input type="text" id="new-contact" placeholder="Digite o nome do contato" required/>
+                <button id="start-conversation-button">Iniciar conversa</button>
+            </div>
+
+            <div class="container-new-conversation">
+                <button id="new-conversation-button">+</button>
+            </div>
         </div>
+    
 
         <div class="chat-area" id="chat-area">
 

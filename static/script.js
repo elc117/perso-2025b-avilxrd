@@ -1,29 +1,72 @@
 // variaveis com os elementos principais do html
-const sendButton   = document.getElementById("send-button");
-const fromInput    = document.getElementById("from");
-const toInput      = document.getElementById("to");
-const contentInput = document.getElementById("content");
-const contactsList  = document.getElementById("contacts-list");
-const chatArea     = document.getElementById("chat-area");
-const msgsArea     = document.getElementById("messages-area");
+const sendButton              = document.getElementById("send-button");
+const fromInput               = document.getElementById("from");
 
+const contentInput            = document.getElementById("content");
+const contactsList            = document.getElementById("contacts-list");
+const chatArea                = document.getElementById("chat-area");
+const msgsArea                = document.getElementById("messages-area");
+const contactSearch           = document.getElementById("contact-search")
+const newConversationButton   = document.getElementById("new-conversation-button");
+const newConversationModal    = document.getElementById("new-conversation");
+const newContactInput         = document.getElementById("new-contact");
+const startConversationButton = document.getElementById("start-conversation-button");
+
+let toInput;
 let currentUser = "Miguel"
+let contact
 loadContacts();
 
-// fica "escutando" o input de usuario e atualizando os
-// contatos com base no usuario
-// provisório -> posteriormente não terá como mudar de usuário
-fromInput.addEventListener("input", (e) => {
-    currentUser = e.target.value.trim();
-    loadContacts();
+// evento de click para adicionar uma nova conversa
+newConversationButton.addEventListener("click", () => {
+    if (newConversationModal.style.display === "block") newConversationModal.style.display = "none";
+    else newConversationModal.style.display = "block";
 });
 
+// inicia a conversa com o contato especificado
+startConversationButton.addEventListener("click", () => {
+    const newContact = newContactInput.value.trim();
+    if (newContact) {
+        toInput = newContact;
+        loadConversation(currentUser, newContact);
+        document.getElementById("contact-name").innerHTML = newContact;
+        newContactInput.value = "";
+        newConversationModal.style.display = "none";
+    } else alert("Por favor, digite um nome de contato.");
+});
+
+// evento para a filtragem dos contatos
+contactSearch.addEventListener("input", () => {
+    const searchTerm = contactSearch.value.trim().toLowerCase();
+    filterContacts(searchTerm);
+});
+
+// função para filtrar contatos
+function filterContacts(searchTerm) {
+    const contactDivs = contactsList.getElementsByClassName("contact");
+    
+    Array.from(contactDivs).forEach(contactDiv => {
+        const contactName = contactDiv.querySelector("a").textContent.toLowerCase();
+        if (contactName.includes(searchTerm)) {
+            contactDiv.style.display = "";
+        } else contactDiv.style.display = "none";
+    });
+}
+
+// // fica "escutando" o input de usuario e atualizando os
+// // contatos com base no usuario
+// // provisório -> posteriormente não terá como mudar de usuário
+// fromInput.addEventListener("input", (e) => {
+//     currentUser = e.target.value.trim();
+//     loadContacts();
+// });
 
 // fica "escutando" o botao, quando clicado vai enviar a mensagem
 // para o endpoint "/msg"
 sendButton.addEventListener("click", async () => {
-    const from    = fromInput.value.trim();
-    const to      = toInput.value.trim();
+    // const from    = fromInput.value.trim();
+    const from    = currentUser
+    const to      = toInput.trim();
     const content = contentInput.value.trim();
 
     if (!from || !to || !content) {
@@ -49,9 +92,8 @@ sendButton.addEventListener("click", async () => {
             contentInput.value = "";
             loadContacts();
             loadConversation(from, to);
-        } else {
-            alert("erro ao enviar a mensagem");
-        }
+        } else alert("erro ao enviar a mensagem");
+
     } catch (err) {
         console.error("erro: ", err);
         alert("erro de rede ao enviar a mensagem");
@@ -70,12 +112,9 @@ async function loadContacts() {
         const contactsSet = new Set();
 
         all_messages.forEach(msg => {
-            if (msg.user_from === currentUser && msg.user_to !== currentUser) {
-                contactsSet.add(msg.user_to);
-            }
-            if (msg.user_to === currentUser && msg.user_from !== currentUser) {
-                contactsSet.add(msg.user_from);
-            }
+            if (msg.user_from === currentUser && msg.user_to !== currentUser) contactsSet.add(msg.user_to);
+            if (msg.user_to === currentUser && msg.user_from !== currentUser) contactsSet.add(msg.user_from);
+
         });
 
         contactsList.innerHTML = "";
@@ -118,7 +157,8 @@ async function loadContacts() {
             
             contactDiv.style.cursor = "pointer";
             contactDiv.addEventListener("click", () => {
-                toInput.value = contact;
+                // toInput.value = contact;
+                toInput = contact;
                 loadConversation(currentUser, contact);
                 let cname = document.getElementById("contact-name");
                 cname.innerHTML = contact;    
