@@ -13,9 +13,24 @@ const newContactInput         = document.getElementById("new-contact");
 const startConversationButton = document.getElementById("start-conversation-button");
 
 let toInput;
-let currentUser = "Miguel"
 let contact
+let currentUser = prompt("Por favor, digite seu nome:");
 loadContacts();
+
+// Função para carregar contatos e conversas
+async function updateContactsAndConversations() {
+    await loadContacts(); // Atualiza a lista de contatos
+    if (toInput) { // Se houver um destinatário atual, atualiza a conversa
+        await loadConversation(currentUser, toInput);
+    }
+}
+
+// Chama a função de atualização imediatamente ao carregar a página
+updateContactsAndConversations();
+
+// Configura o polling para atualizar a cada 5 segundos (5000 milissegundos)
+setInterval(updateContactsAndConversations, 2000);
+
 
 // evento de click para adicionar uma nova conversa
 newConversationButton.addEventListener("click", () => {
