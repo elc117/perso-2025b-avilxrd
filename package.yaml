@@ -34,6 +34,7 @@ dependencies:
 - http-types
 - generic-deriving
 - bytestring
+- HUnit
 
 ghc-options:
 - -Wall
@@ -70,3 +71,4 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - simple-chat
+    - HUnit
