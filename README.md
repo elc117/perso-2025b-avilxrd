@@ -40,10 +40,7 @@ Para executar o aplicativo, siga as etapas abaixo:
    - O aplicativo estará disponível em `http://localhost:3000`.
 
 ### Resultados Finais
-<video width="640" height="360" controls>
-  <source src="/imgs/demo.mp4" type="video/mp4">
-</video>
-
+[Assista o vídeo de demonstração] (https://youtu.be/-oG3fOEBMU0)
 
 ## Referências e Créditos
 - [Haskell Documentation](https://www.haskell.org/documentation/)
