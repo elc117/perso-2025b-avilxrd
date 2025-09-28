@@ -25,7 +25,9 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      Database
+      Model
+      Routes
   other-modules:
       Paths_simple_chat
   autogen-modules:
